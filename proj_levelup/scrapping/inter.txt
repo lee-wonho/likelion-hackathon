@@ -1,0 +1,21 @@
+enddate YYYYMMDD
+- 지나면 데이터 삭제
+
+goodsname = title
+
+imagepath = image source path
+
+kindofgoodsname = categories
+
+kindofgroupname = categories
+
+placename 온라인
+
+player (dict) 44324:(여자)아이들
+
+goodscode - 링크 코드
+
+registerdateforweb - 판매 예정일 YYYY MM DD HH MM
+
+
+http://ticket.interpark.com/Ticket/Goods/GoodsInfo.asp?GoodsCode={goodscode}
