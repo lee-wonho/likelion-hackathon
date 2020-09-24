@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from interpark import result_interpark
+from scrap_interpark import result_interpark
 
 # Create your views here.
 
