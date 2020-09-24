@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./show.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+        <!-- font-family: 'Noto Sans KR', sans-serif; -->
+    <title>{{info_obj.category}}</title>
+    <style>
+        h1 {font-family: 'Noto Sans KR', sans-serif;}
+        h3 {font-family: 'Noto Sans KR', sans-serif;}
+        div {font-family: 'Noto Sans KR', sans-serif;}
+    </style>
+</head>
+<body link="black" alink="black" vlink="black" title="공연정보 보기" target="self">
+    <div class="title">
+        {% if genre_pk == 1 %}
+            <h1>온라인 공연 - 전시/관람</h1>
+                {% for info in info_obj %}
+                    {% if info.category == '전시/관람' %}
+                        <a href = {{info.href}}>
+                        <img src={{info.img}} alt='전시/관람 사진'/>
+                        <div>{{info.title}}</div>
+                        <div>{{info.actor}}</div>
+                        <div>{{info.startdate}}~{{info.enddate}}</div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+        {% elif genre_pk == 2 %}
+        <h1>온라인 공연 - 공연/콘서트</h1>
+            {% for info in info_obj %}
+                    {% if info.category == '공연/콘서트' %}
+                        <a href = {{info.href}}>
+                        <img src={{info.img}} alt='공연/콘서트 사진'/>
+                        <div>{{info.title}}</div>
+                        <div>{{info.actor}}</div>
+                        <div>{{info.startdate}}~{{info.enddate}}</div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+        {% else %}
+        <h1>온라인 공연 - 연극/뮤지컬</h1>
+            {% for info in info_obj %}
+                    {% if info.category == '연극/뮤지컬' %}
+                        <a href = {{info.href}}>
+                        <img src={{info.img}} alt='연극/뮤지컬 사진'/>
+                        <div>{{info.title}}</div>
+                        <div>{{info.actor}}</div>
+                        <div>{{info.startdate}}~{{info.enddate}}</div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+        {% endif %}
+        <div class="inbox">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{% url 'home' %}"><h3>메인으로 돌아가기</h3></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+</body>
+</html>
