@@ -11,16 +11,25 @@
 <body>
     <h1 class="title">온라인 공연 - 전시 / 관람</h1>
     <br />
-    <br />
     <div class="list_cat">
-        <h3 class="selected">전시 / 관람</h3>
-        <h3 href="../sh_con/">공연 / 콘서트</h3>
-        <h3 href="../th_mu/">연극 / 뮤지컬</h3>
+        <div class="selected">
+            <h3>전시 / 관람</h3>
+        </div>
+        <h3 class="not_selected" href="../sh_con/">공연 / 콘서트</h3>
+        <h3 class="not_selected" href="../th_mu/">연극 / 뮤지컬</h3>
     </div>
-    {% comment %} <div class="container">
-        <div></div>
+    <div class="container">
+        {% for content in result_ex_pr %}
+        <div class="cont_box">
+            <img class="cont_poster" src={{content.image}} alt="image"></img>
+            <h3>{{content.title}}</h3>
+            <h4>~{{content.end_date}}</h4>
+        </div>
 
-    </div> {% endcomment %}
+        {% endfor %}
+        
+
+    </div>
 
 
     
