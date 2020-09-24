@@ -19,9 +19,9 @@ from app_webpage import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', views.home, name='home'),
+    path('', views.index, name='index'),
     path('ex_pr/', views.ex_pr, name='ex_pr'),
-    # path('sh_con/', views.sh_con, name='sh_con'),
-    # path('th_mu/', views.th_mu, name='th_mu'),
+    path('sh_con/', views.sh_con, name='sh_con'),
+    path('th_mu/', views.th_mu, name='th_mu'),
 ]
 

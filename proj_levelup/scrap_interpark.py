@@ -1,7 +1,8 @@
 import requests
 import json
+
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'likelion-hackathon.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'proj_levelup.settings')
 import django
 django.setup()
 
@@ -34,9 +35,6 @@ response = requests.get('https://api-ticketfront.interpark.com/v1/search/ticket/
 # response = requests.get('https://api-ticketfront.interpark.com/v1/search/ticket/search?filter=%28bookableyn%3AY%20OR%20bookableyn%3AD%29&q=%EC%98%A8%EB%9D%BC%EC%9D%B8&rows=20&start=0&userCookie=', headers=headers)
 result_dict = json.loads(response.text)
 
-
-
-
 def result_interpark():
     list_ex_pr = []
     list_sh_con = []
@@ -44,23 +42,17 @@ def result_interpark():
 
     for goods in result_dict['data']['docs']:
         code = goods['goodscode']
+        start_date = goods['startdate']
         end_date = goods['enddate']
         title = goods['goodsname']
         image = goods['imagepath']
-        players = goods['playernames']
-        players = players.replace(' ', '').split(',')[0:-1] if players is not None else []
+        actor = goods['playernames']
+        actor = actor[0:-2] if actor is not None else ''
         category = goods['kindofgoodsname']
         href = f'http://ticket.interpark.com/Ticket/Goods/GoodsInfo.asp?GoodsCode={code}'
-        
-        # print('코드:', code)
-        # print('기간:', end_date, "까지")
-        # print('포스터 주소:', image)
-        # print('링크:', href)
-        # print('제목:', title)
-        # print('분류:', category)
-        # print('출연자:', players,end='\n'*2)
 
-        content = {"category" : category, "href" : href, "image" : image, "title" : title, "end_date" : end_date}
+        content = {"category" : category, "href" : href, "image" : image, "title" : title,
+                    "start_date" : start_date, "end_date" : end_date, "actor" : actor}
         
         if content["category"] == "전시/행사":
             list_ex_pr.append(content)
@@ -71,10 +63,10 @@ def result_interpark():
 
     return list_ex_pr, list_sh_con, list_th_mu
 
-# result_dict = scrap_interpark()
-# ex_pr, sh_con, th_mu = result_interpark(result_dict)
-# print(ex_pr)
+# list_ex_pr, list_sh_con, list_th_mu = result_interpark()
+
+# print(list_ex_pr)
 # print("\n")
-# print(sh_con)
+# print(list_sh_con)
 # print("\n")
-# print(th_mu)
+# print(list_th_mu)

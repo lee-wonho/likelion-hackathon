@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css'%}" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
         <!-- font-family: 'Noto Sans KR', sans-serif; -->
-    <title>전시/관람</title>
+    <title>공연/콘서트</title>
     <style>
         h1 {font-family: 'Noto Sans KR', sans-serif;}
         h3 {font-family: 'Noto Sans KR', sans-serif;}
@@ -16,7 +16,7 @@
     </style>
 </head>
 <body link="black" alink="black" vlink="black" title="공연정보 보기" target="self">
-    <h1 class="title">온라인 공연 - 전시 / 관람</h1>
+    <h1 class="title">온라인 공연 - 공연 / 콘서트</h1>
     <p class="title">원하는 콘텐츠의 포스터를 클릭하시면 해당 링크로 연결됩니다.</p>
     <div class="inbox">
         <a href="http://127.0.0.1:8000/"><h3 class="cat">메인으로 돌아가기</h3></a>
@@ -25,11 +25,11 @@
         <a href="http://127.0.0.1:8000/th_mu/"><h3 class="cat">연극/뮤지컬</h3></a>
     </div>
     <div class="sub">
-        {% for content in result_ex_pr %}
+        {% for content in result_sh_con %}
         <div class="cont_box">
             <a href={{content.href}}><img class="cont_poster" src={{content.image}} alt="image"></img></a>
             <h3>{{content.title}}</h3>
-            <h4>{{content.start_date}} ~ {{content.end_date}}</h4>
+            <h4>{{content.start_date}}~{{content.end_date}}</h4>
             <h4>{{content.actor}}</h4>
         </div>
         {% endfor %}            
