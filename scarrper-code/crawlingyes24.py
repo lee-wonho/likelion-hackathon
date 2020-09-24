@@ -37,11 +37,7 @@ data = {
   'SearchSubText': '',
   'SearchType': '',
   'BookingType': '',
-<<<<<<< Updated upstream
-  'PerfCurPage': num,
-=======
   'PerfCurPage': '',
->>>>>>> Stashed changes
   'PageSize': '10',
   'SortType': '1'
 }
@@ -82,18 +78,12 @@ def get_data():
         if content.select_one('div>.item-tit'):
           contentdict['title']=content.select_one('.item-tit>a').get_text()
         
-<<<<<<< Updated upstream
-=======
         contentdict['actor'] = get_actor(contentdict['href'])
->>>>>>> Stashed changes
         
         contents.append(contentdict)   
       num+=1
       data['PerfCurPage']=num
 
-<<<<<<< Updated upstream
-
-=======
   return contents
 
 def get_actor(href):
@@ -102,4 +92,3 @@ def get_actor(href):
   select = soup.select('td')[3].get_text()
 
   return select
->>>>>>> Stashed changes
