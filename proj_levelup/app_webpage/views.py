@@ -1,11 +1,10 @@
 from django.shortcuts import render
-from interpark import scrap_interpark, result_interpark
+from interpark import result_interpark
 
 # Create your views here.
 
-dict_inter = scrap_interpark()
-ex_pr_inter, sh_con_inter, th_mu_inter = result_interpark(dict_inter)
-ex_pr_yes24, sh_con_yes24, th_mu_yes24 = result_interpark(dict_inter)
+ex_pr_inter, sh_con_inter, th_mu_inter = result_interpark()
+ex_pr_yes24, sh_con_yes24, th_mu_yes24 = result_interpark()
 
 def ex_pr(request): 
     result_ex_pr = (ex_pr_inter + ex_pr_yes24)
