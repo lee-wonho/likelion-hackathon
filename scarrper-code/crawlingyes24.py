@@ -32,6 +32,8 @@ headers = {
     'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
 }
 
+SearchType={'15456':'공연/콘서트','15457':'연극/뮤지컬','15458':'연극/뮤지컬','15459':'공연/콘서트','15460':'전시/관람'}
+
 data = {
   'SearchText': '\uC628\uB77C\uC778',
   'SearchSubText': '',
@@ -43,39 +45,43 @@ data = {
 }
 
 contents = []
-
-while True:
-  response = requests.post('http://ticket.yes24.com/New/Search/Ajax/axPerfList.aspx', headers=headers, cookies=cookies, data=data, verify=False)
-  if response.text.split()==[]:
-    break
-  soup = BeautifulSoup(response.text, 'html.parser')
-
-  select = soup.select(
-    '.srch-list-item'
-  )
-  
-
-  for content in select:
-    contentdict={}
-    date = content.select('div')[2].get_text().split('~')
-
-    enddate = datetime.datetime.strptime(date[1], format('%Y.%m.%d'))
-    if enddate < datetime.datetime.now():
-      break
-    
-    contentdict['startdate'] = date[0]
-    contentdict['enddate'] = date[1]
-
-    if content.select_one('div>a>img'):
-      contentdict['href'] = 'http://ticket.yes24.com/'+content.find('a')['href']
-      contentdict['img'] = content.select_one('a').find('img')['src']
-
-    if content.select_one('div>.item-tit'):
-      contentdict['title']=content.select_one('.item-tit>a').get_text()
-    
-    
-    contents.append(contentdict)   
-  num+=1
+for search in SearchType.keys():
+  num=1
   data['PerfCurPage']=num
+  data['SearchType']=search
+  response = requests.post('http://ticket.yes24.com/New/Search/Ajax/axPerfList.aspx', headers=headers, cookies=cookies, data=data, verify=False)
+  while response.text.split()!=[]:
+    response = requests.post('http://ticket.yes24.com/New/Search/Ajax/axPerfList.aspx', headers=headers, cookies=cookies, data=data, verify=False)
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    select = soup.select(
+      '.srch-list-item'
+    )
+    
+    for content in select:
+      contentdict={}
+    
+      contentdict['category']=SearchType[search]
+      date = content.select('div')[2].get_text().split('~')
+
+      enddate = datetime.datetime.strptime(date[1], format('%Y.%m.%d'))
+      if enddate < datetime.datetime.now():
+        break
+      
+      contentdict['startdate'] = date[0]
+      contentdict['enddate'] = date[1]
+
+      if content.select_one('div>a>img'):
+        contentdict['href'] = 'http://ticket.yes24.com/'+content.find('a')['href']
+        contentdict['img'] = content.select_one('a').find('img')['src']
+
+      if content.select_one('div>.item-tit'):
+        contentdict['title']=content.select_one('.item-tit>a').get_text()
+      
+      
+      contents.append(contentdict)   
+    num+=1
+    data['PerfCurPage']=num
 
 print(contents)
