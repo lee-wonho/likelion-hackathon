@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./show.css" />
+    {% load static %}
+    <link rel="stylesheet" type='text/css' href="{% static "show.css" %}" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
         <!-- font-family: 'Noto Sans KR', sans-serif; -->
     <title>{{info_obj.category}}</title>
