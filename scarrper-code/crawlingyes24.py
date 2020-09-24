@@ -4,8 +4,6 @@ import json
 import requests
 import datetime
 
-num=1
-
 cookies = {
     'ASP.NET_SessionId': 'hqyrs5qr5fixs4o00qqtbiyd',
     'RecentSWs': 'wgMktQ6AaG0lOPz1vvor2Q==',
@@ -44,44 +42,45 @@ data = {
   'SortType': '1'
 }
 
-contents = []
-for search in SearchType.keys():
-  num=1
-  data['PerfCurPage']=num
-  data['SearchType']=search
-  response = requests.post('http://ticket.yes24.com/New/Search/Ajax/axPerfList.aspx', headers=headers, cookies=cookies, data=data, verify=False)
-  while response.text.split()!=[]:
-    response = requests.post('http://ticket.yes24.com/New/Search/Ajax/axPerfList.aspx', headers=headers, cookies=cookies, data=data, verify=False)
-
-    soup = BeautifulSoup(response.text, 'html.parser')
-
-    select = soup.select(
-      '.srch-list-item'
-    )
-    
-    for content in select:
-      contentdict={}
-    
-      contentdict['category']=SearchType[search]
-      date = content.select('div')[2].get_text().split('~')
-
-      enddate = datetime.datetime.strptime(date[1], format('%Y.%m.%d'))
-      if enddate < datetime.datetime.now():
-        break
-      
-      contentdict['startdate'] = date[0]
-      contentdict['enddate'] = date[1]
-
-      if content.select_one('div>a>img'):
-        contentdict['href'] = 'http://ticket.yes24.com/'+content.find('a')['href']
-        contentdict['img'] = content.select_one('a').find('img')['src']
-
-      if content.select_one('div>.item-tit'):
-        contentdict['title']=content.select_one('.item-tit>a').get_text()
-      
-      
-      contents.append(contentdict)   
-    num+=1
+def get_data():
+  contents = []
+  for search in SearchType.keys():
+    num=1
     data['PerfCurPage']=num
+    data['SearchType']=search
+    response = requests.post('http://ticket.yes24.com/New/Search/Ajax/axPerfList.aspx', headers=headers, cookies=cookies, data=data, verify=False)
+    while response.text.split()!=[]:
+      response = requests.post('http://ticket.yes24.com/New/Search/Ajax/axPerfList.aspx', headers=headers, cookies=cookies, data=data, verify=False)
 
-print(contents)
+      soup = BeautifulSoup(response.text, 'html.parser')
+
+      select = soup.select(
+        '.srch-list-item'
+      )
+      
+      for content in select:
+        contentdict={}
+      
+        contentdict['category']=SearchType[search]
+        date = content.select('div')[2].get_text().split('~')
+
+        enddate = datetime.datetime.strptime(date[1], format('%Y.%m.%d'))
+        if enddate < datetime.datetime.now():
+          break
+        
+        contentdict['startdate'] = date[0]
+        contentdict['enddate'] = date[1]
+
+        if content.select_one('div>a>img'):
+          contentdict['href'] = 'http://ticket.yes24.com/'+content.find('a')['href']
+          contentdict['img'] = content.select_one('a').find('img')['src']
+
+        if content.select_one('div>.item-tit'):
+          contentdict['title']=content.select_one('.item-tit>a').get_text()
+        
+        
+        contents.append(contentdict)   
+      num+=1
+      data['PerfCurPage']=num
+
+  return contents
